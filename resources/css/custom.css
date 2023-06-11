@@ -1,0 +1,222 @@
+
+#maps {
+	/* background-color: #14171c !important; */	
+	text-transform: none;
+	color: #bbbaba;
+}
+
+#maps .table thead td, .table thead th {
+	border-color: #6f6f6f;
+}
+
+#maps table {
+	background-color: rgba(0, 0, 0, 0.4);
+	color: #bbbaba;
+	border-color: #333 rgb(116, 116, 116) #333 #747474; 
+	/* border-radius: 10px; */
+	border-style: solid;
+	border-width: 1px;
+	margin-bottom: 0px;
+}
+#maps table .table-colored {
+	background-color: rgba(0, 0, 0, 0.229) !important;
+}
+
+#maps .table thead {
+	background-color: rgba(0, 0, 0, 0.4);
+	color: #bbbaba;
+ 	border: 1px solid rgb(116, 116, 116);
+}
+#maps .table tbody .content {
+	cursor: pointer;
+}
+#maps table table th.col-route {
+	width: 15%;
+}
+#maps table table th.col-runs {
+	text-align: left;
+	width: 5%;	
+}
+#maps table table th.col-top {
+	text-align: center;
+	width: 35%;
+}
+#maps table table th.col-action {
+	width: 10%;
+}
+#maps table table td.col-top {
+	text-align: center;
+}
+#maps a {
+ font-style: italic;
+  color: #6f6f6f;
+}
+
+#maps table button {
+  color: #6f6f6f;
+}
+
+#maps .hiddenRow {
+    padding: 0 !important;
+}
+
+#maps .inputSearchEngine {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+#maps .inputSearchEngine input {
+	width: 100%;
+	font-size: 24px;
+	background-color: rgba(0, 0, 0, 0.4);
+	text-align: center;
+	text-transform: lowercase;
+	color: rgb(116, 116, 116) !important;
+ 	border: 1px solid rgb(116, 116, 116);
+	border-radius: 10px;
+}
+#maps .greyText {
+	color: rgb(116, 116, 116) !important;
+}
+#maps  .content-box-title {
+	text-align: center;
+    min-height: 50px;
+	margin-left: 20%;
+	margin-bottom: 10px;
+ 	border: 1px solid rgb(116, 116, 116);
+	border-radius: 15px;
+	background-color: rgba(0, 0, 0, 0.4);
+	width: 60%;
+}
+
+#maps  .content-box-desc {
+	text-align: center;
+    min-height: 80px;
+	margin-bottom: 10px;
+ 	border: 1px solid rgb(116, 116, 116);
+	border-radius: 15px;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+#maps  .content-box-desc p {
+	text-overflow: ellipsis;  
+	white-space: nowrap;
+}
+
+#maps  .content-box-table {
+	text-align: center;
+    min-height: 80px;
+	margin-bottom: 10px;
+ 	border: 1px solid rgb(116, 116, 116);
+	/* border-radius: 15px; */
+	background-color: rgba(0, 0, 0, 0.4);
+}
+#maps  .content-box-table p {
+	text-overflow: ellipsis;  
+	white-space: nowrap;
+}
+
+#maps  .content-box-desc .col-4 {
+	margin: auto;
+}
+
+#maps  .content-box-info {
+	text-align: center;
+    min-height: 80px;
+ 	border: 1px solid rgb(116, 116, 116);
+	border-radius: 15px;
+	margin-bottom: 10px;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+#maps .content-box-info .quickInfo {
+	font-size: 16px;
+	border-radius: 15px;
+	margin-bottom: 10px;
+}
+#maps .left p {
+	text-align:left;
+	position:relative;
+	left: 10px;
+}
+#maps .right p {
+	text-align:right;
+	position:relative;
+	right: 10px;
+}
+svg > g > g.google-visualization-tooltip { pointer-events: none }
+
+tr:hover td {
+	color: white !important;
+}
+
+
+#maps .table-map-img {	
+	outline: 2px solid #737373;
+	outline-offset: 1px;
+}
+#maps .table-map-img .trapeziumTopLeft {
+	top: 0px; 
+	left: 0px;
+	opacity: 0.8;
+	width: 200px;
+	border-top: 30px solid #1a1d25;
+	border-right: 20px solid transparent;
+}
+
+#maps .table-map-img img {
+	margin: auto;
+	max-height:197px; 
+}
+
+#maps .table-map-img .textTopLeft {
+	bottom: 27px;
+	left: 10px; 
+	position: relative;
+}
+
+
+
+/* Mobile stuff */
+
+@media (max-width: 479px) {
+	.no-mobile {display: none !important;}
+
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+		
+	tbody td { 
+		/* Behave  like a "row" */
+		border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important; 
+		border-top: 1px solid rgba(255, 255, 255, 0.15) !important; 
+		position: relative;
+		padding-left: 50% !important; 
+		min-height: 50px;
+	}
+
+	tbody td:first-child { 
+		border-bottom: 1px solid rgba(255, 255, 255, 0.3) !important; 
+		border-top: 1px solid rgba(255, 255, 255, 0.3) !important; 
+		background-color: rgba(0, 0, 0, 0.5);
+	}
+
+	td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 10px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+}
+
+@media (min-width: 479px) {
+	.mobile {display:none;}
+}
+@media (min-width: 1200px) {
+	.container {
+		max-width: 1500px;
+	}
+}

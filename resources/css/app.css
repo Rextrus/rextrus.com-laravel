@@ -1,0 +1,39 @@
+body {
+	background: #0D1017;
+	background: -moz-linear-gradient(top, #0D1017 9%, #1b2637 23%, #0c0f16 100%);
+	background: -webkit-linear-gradient(top, #0D1017 9%, #1b2637 23%, #0c0f16 100%);
+	background: linear-gradient(to bottom, #0D1017 9%, #1b2637 23%, #0c0f16 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+	
+	font-family: colaborate-thinregular,sans-serif;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	width: 100vw;
+	overflow-y: scroll;
+	overflow-x: hidden !important;
+	height: 100vh; 
+}
+
+.bg-dark-custom {
+  background-color: #0d1017;
+}
+
+nav {
+  border-bottom: 1px solid #333;
+}
+
+.dropdown-dark {
+	background-color: #14171c !important;
+  border: 1px solid #333;
+}
+
+.dropdown-dark a {
+  color: #6f6f6f;
+}
+
+.dropdown-menu > a:hover {
+  background-image: none;
+  background-color: #1a1e25;
+  color: #bbbaba;
+}
