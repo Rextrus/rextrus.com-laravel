@@ -49,7 +49,7 @@
 		/* #maps .content-box-desc .longestRuns {
 			right: 0px;
 		} */
-
+/*  */
 		td:nth-of-type(1):before { content: "#"; }
 		td:nth-of-type(2):before { content: "map"; }
 		td:nth-of-type(3):before { content: "route"; }
@@ -70,39 +70,22 @@
 						<a href="javascript:history.go(-1)">&#x2190;</a>
 					</div>
 					<div class="col-10">
-						<h3><a href="/cod4/player/{{$players['guidShort']}}">{{$players['alias']}}</a></h3>
+						<h3>runs from <a href="/cod4/statistics/{{$players['guidShort']}}">{{$players['alias']}}</a></h3>
 					</div>
 					<div class="col-1"></div>
 				</div>
+			</div>			
+			<div class="content-box-title">
+				<p  style="padding-top: 12px;">
+					click <a href="/cod4/statistics/{{$players['guidShort']}}">here</a> to see {{$players['alias']}} statistics 
+				</p>
 			</div>
-			<div class="content-box-desc">
+			{{-- <div class="content-box-desc">
 				<div class="row" style="margin-top: 20px;text-align: center;">
 					<p style="text-align: center;margin-bottom: 15px;">quick statistics</p>
 				</div>
 				<div class="row" style="margin-bottom: 25px; text-align: left; line-height: 0.5;">
 					<div class="col topTime">
-						@php
-						
-						$transferArray = array(
-							array('name' => 'TopTimeLegit', 'value' => $players['top_time_player']),
-							array('name' => 'TopTimeHax', 'value' => $players['top_time_hax_player'])
-							// ,
-							// array('name' => 'TopTimeHaxEle', 'value' => $array2),
-							// array('name' => 'TopTimeEle', 'value' => $array3)
-						);
-						// foreach ($transferArray as $array) {
-						// 	foreach ($array['value'] as $value) {
-						// 		$allTopTimes[] = array(
-						// 			'name' => $array['name'],
-						// 			'value' => $value
-						// 		);
-						// 	}
-						// }
-
-						// print_r($transferArray);
-						@endphp
-
-
 						<p style="font-weight: bold;">#1 Time from {{$players['alias']}}</p>
 
 						@foreach($players['top_time_player'] as $key=>$route)
@@ -116,25 +99,9 @@
 								<p><a href="/cod4/map/{{$route['map_external']['mapname']}}">{{$route['map_external']['mapname']}}</a> - <a href="/cod4/route/{{$route['id_3xp_way']}}">{{$route["name"]}}</a></p>
 							@endif						
 						@endforeach
-						{{-- @foreach($players['top_time_hax_player'] as $key=>$route)
-							@if($key < 11)
-								<p><a href="/cod4/map/{{$route['map_external']['mapname']}}">{{$route['map_external']['mapname']}}</a> - <a href="/cod4/route/{{$route['id_3xp_way']}}">{{$route["name"]}}</a>*</p>
-							@elseif($key == 11)
-								<span id='top-time-more' style='display: none;'>
-							@elseif($key == count($players['top_time_hax_player']) - 1)
-								</span>
-							@else
-								<p><a href="/cod4/map/{{$route['map_external']['mapname']}}">{{$route['map_external']['mapname']}}</a> - <a href="/cod4/route/{{$route['id_3xp_way']}}">{{$route["name"]}}</a>*</p>
-							@endif						
-						@endforeach --}}
 						@if(count($players['top_time_player']) > 10)
 							<input type="button" style="text-align: center;" onclick="showMore('top-time-more', 'top-time-button')" class="btn btn-outline-dark me-2 greyText" id='top-time-button' value='show more'>
 						@endif
-							{{-- <input type='submit' onclick="showMore('top-time-more', 'top-time-button')" style='margin-top: 0;' id='top-time-button'> --}}
-
-
-
-
 					</div>
 					<div class="col topRPG">
 						<p style="font-weight: bold;">#1 RPG from {{$players['alias']}}</p>
@@ -171,7 +138,7 @@
 						@endif
 					</div>
 				</div>
-			</div>
+			</div> --}}
 
 			<div class="inputSearchEngine">
 				<input type="text" id="searchInput" onkeyup="filterMaps()" placeholder="Search for runs">

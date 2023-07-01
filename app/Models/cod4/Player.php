@@ -22,12 +22,12 @@ class Player extends Model
 
     public function bestRunByTime() 
     {
-        return $this->hasMany(Run::class, "guid", "guid")->where('cheats', 0)->orderBy('time', 'DESC')->groupBy('way_id');
+        return $this->hasMany(Run::class, "guid", "guid")->where('cheats', 0)->orderBy('time', 'DESC');
     }
 
     public function bestRunByRPG() 
     {
-        return $this->hasMany(Run::class, "guid", "guid")->where('cheats', 0)->groupBy('way_id')->orderBy('rpgs');
+        return $this->hasMany(Run::class, "guid", "guid")->where('cheats', 0)->orderBy('rpgs', 'DESC');
     }
 
     public function longestRuns() 

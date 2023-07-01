@@ -14,25 +14,55 @@
 		].join(":");
 		document.write("" + formattedTime + "");
 	}
+	
+	function showMore(moreText, btnText) {
+		var moreText = document.getElementById(moreText);
+		var btnText = document.getElementById(btnText);
+
+		if (moreText.style.display === "none") {
+			btnText.value = "collapse";
+			moreText.style.display = "inline";
+		} else {
+			btnText.value = "expand";
+			moreText.style.display = "none";
+		}
+	}
 </script>
 <style>
 
-body {
-	background: #0D1017;
-	background: -moz-linear-gradient(top, #0D1017 9%, #1b2637 23%, #0c0f16 100%);
-	background: -webkit-linear-gradient(top, #0D1017 9%, #1b2637 23%, #0c0f16 100%);
-	background: linear-gradient(to bottom, #0D1017 9%, #1b2637 23%, #0c0f16 100%);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-#map .content-box-desc .chart_div {
-	margin: auto;
-}
-
 #map .content-box-desc {
-	
+
 	background-color: #14171c !important;
+}
+
+#maps .content-box-desc .topTime,.topRPG {
+	left: 30px;
+}
+
+#maps .content-box-desc .longestRuns {
+	right: 15px;
+}
+
+@media (max-width: 479px) {
+
+	#maps .content-box-desc .topTime,.topRPG,.longestRuns {
+		left: 15px;
+		margin-bottom: 20px;
+		font-size: 14px;
+	}
+
+	/* #maps .content-box-desc .longestRuns {
+		right: 0px;
+	} */
+/*  */
+	td:nth-of-type(1):before { content: "#"; }
+	td:nth-of-type(2):before { content: "map"; }
+	td:nth-of-type(3):before { content: "route"; }
+	td:nth-of-type(4):before { content: "time"; }
+	td:nth-of-type(5):before { content: "rpg"; }
+	td:nth-of-type(6):before { content: "save/load"; }
+	td:nth-of-type(7):before { content: "hax/ele"; }
+	td:nth-of-type(8):before { content: "recorded"; }
 }
 
 @media (max-width: 479px) {
@@ -47,16 +77,75 @@ body {
 		{{-- @if(count($mapsData) > 0) --}}
 			<div class="content-box-title">
 				<div class="row" style="padding-top: 8px;">
-					<h3>codjumper statistics</h3>
+					<h3>codjumper statistics from {{$playerData['alias']}}</h3>
 				</div>
 			</div>
+
 			<div class="content-box-desc">
-				Test
+				<div class="row" style="margin-top:25px;margin-bottom: 25px; text-align: left; line-height: 0.5;">
+					<div class="col topTime">
+						<p style="font-weight: bold;">#1 Time from {{$playerData['alias']}}</p>
+
+						@foreach($playerData['top_time_player'] as $key=>$route)
+							@if($key < 11)
+								<p><a href="/cod4/map/{{$route['map_external']['mapname']}}">{{$route['map_external']['mapname']}}</a> - <a href="/cod4/route/{{$route['id_3xp_way']}}">{{$route["name"]}}</a></p>
+							@elseif($key == 11)
+								<span id='top-time-more' style='display: none;'>
+							@elseif($key == count($playerData['top_time_player']) - 1)
+								</span>
+							@else
+								<p><a href="/cod4/map/{{$route['map_external']['mapname']}}">{{$route['map_external']['mapname']}}</a> - <a href="/cod4/route/{{$route['id_3xp_way']}}">{{$route["name"]}}</a></p>
+							@endif						
+						@endforeach
+						@if(count($playerData['top_time_player']) > 10)
+							<input type="button" style="text-align: center;" onclick="showMore('top-time-more', 'top-time-button')" class="btn btn-outline-dark me-2 greyText" id='top-time-button' value='expand'>
+						@endif
+					</div>
+					<div class="col topRPG">
+						<p style="font-weight: bold;">#1 RPG from {{$playerData['alias']}}</p>
+						@foreach($playerData['top_r_p_g_player'] as $key=>$route)					
+							@if($key < 11)
+								<p><a href="/cod4/map/{{$route['map_external']['mapname']}}">{{$route['map_external']['mapname']}}</a> - <a href="/cod4/route/{{$route['id_3xp_way']}}">{{$route["name"]}}</a></p>
+							@elseif($key == 11)
+								<span id='top-rpg-more' style='display: none;'>
+							@elseif($key == count($playerData['top_r_p_g_player']) - 1)
+								</span>
+							@else
+								<p><a href="/cod4/map/{{$route['map_external']['mapname']}}">{{$route['map_external']['mapname']}}</a> - <a href="/cod4/route/{{$route['id_3xp_way']}}">{{$route["name"]}}</a></p>
+							@endif
+						@endforeach
+						@if(count($playerData['top_r_p_g_player']) > 10)
+							<input type="button" style="text-align: center;" onclick="showMore('top-rpg-more', 'top-rpg-button')" class="btn btn-outline-dark me-2 greyText" id='top-rpg-button' value='expand'>
+						@endif
+					</div>
+					<div class="col longestRuns">
+						<p style="font-weight: bold;">Longest runs</p>
+						@foreach($longestRuns['longest_runs'] as $key=>$run)					
+							@if($key < 11)
+								<p><a href="/cod4/map/{{$run['route_external']['map']['mapname']}}">{{$run['route_external']['map']['mapname']}}</a> - <a href="/cod4/route/{{$run['route_external']['id']}}">{{$run['route_external']['name']}}</a> (<script type="text/javascript">msToHMS("{{$run['time']}}");</script>)</p>
+							@elseif($key == 11)
+								<span id='longest-runs-more' style='display: none;'>
+							@elseif($key == count($longestRuns['longest_runs']) - 1)
+								</span>
+							@else
+								<p><a href="/cod4/route/{{$run['route_external']['map']['id']}}">{{$run['route_external']['map']['mapname']}}</a> - <a href="/cod4/route/{{$run['route_external']['id']}}">{{$run['route_external']['name']}}</a> (<script type="text/javascript">msToHMS("{{$run['time']}}");</script>)</p>
+							@endif
+						@endforeach
+						@if(count($longestRuns['longest_runs']) > 10)
+							<input type="button" style="text-align: center;" onclick="showMore('longest-runs-more', 'longest-runs-button')" class="btn btn-outline-dark me-2 greyText" id='longest-runs-button' value='expand'>
+						@endif
+					</div>
+				</div>
 			</div>
+
 			<div class="content-box-info">
 				<div class="row" style="padding-top: 25px;">
 					<div class="col-sm-4">
-						<p>TBD total runs</p>
+						<p>{{$finishedRouteCounter}}/{{$routeCounter}} routes finished
+							@php
+								echo "(" . round($finishedRouteCounter/$routeCounter * 100, 2) . "%)";
+							@endphp
+						</p>
 					</div>
 					<div class="col-sm-4">
 						<p>
@@ -64,60 +153,72 @@ body {
 					</div>
 					<div class="col-sm-4">
 						<p>
+							click <a href="/cod4/player/{{$playerData['guidShort']}}">here</a> to see all runs
 						</p>
 					</div>
                     <p>Note: Only maps which can be played in speedrun are displayed</p>
 				</div>
 			</div>
 			
-			<div class="inputSearchEngine">
+			{{-- <div class="inputSearchEngine">
 				<input type="text" id="searchInput" onkeyup="filterMaps()" placeholder="Search for maps or route name">
-			</div>
+			</div> --}}
 			
 			<form action="/cod4/map" method="get">
-			<table class="table table-hover" id="mapsTable">
+			{{-- <table class="table table-hover" > --}}
+			<table class="table table-hover table-sm" id="mapsTable">
 				<thead class="no-mobile">
 					<tr>
 						<th scope="col">#</th>
-						<th scope="col">map</th>
-						<th scope="col">routes</th>
-						<th scope="col">personal best</th>
+						<th scope="col">
+							<div class="row">
+								<div class="col-sm-4">
+									route
+								</div>
+								<div class="col-sm-4">
+									PB time
+								</div>
+								<div class="col-sm-4">
+									PB rpg
+								</div>
+							</div>
+						</th>
 					</tr>
 				</thead>
 				<tbody>
 				@foreach($mapsData as $key=>$map)
                 @if($map["routes_external"] != null)
+				@foreach($map["routes_external"] as $keytwo=>$route)
 					<tr>
-						<td scope="row">{{$key+1}}</td>
-						<td><a href="/cod4/map/{{$map['name']}}">{{$map['name']}}</a> </td>
-						<td>
-                            @foreach($map["routes_external"] as $route)
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <a href="/cod4/route/{{$route['id']}}">{{$route['name']}}</a>
-                                </div>
-                                <div class="col-sm-2">
-                                    @if(isset($route['best_run_by_time']))
-                                    
-                                    <script type="text/javascript">
-                                        msToHMS("{{$route['best_run_by_time']['time']}}");
-                                    </script>
-                                    @endif
-                                </div>
-
-
-                            </div>
-                            @endforeach
+						@if($keytwo == 0)
+							<td rowspan="{{count($map["routes_external"])}}" scope="row"><a href="/cod4/map/{{$map["name"]}}">{{$map["name"]}}</a></td>
+						@endif
+						{{-- <td scope="row">{{$key+1}}</td> --}}
+						<td scope="row">
+							<div class="row">
+								<div class="col-sm-4">
+									<a href="/cod4/route/{{$route['id']}}">{{$route['name']}}</a>
+								</div>
+								<div class="col-sm-4">
+									@if(isset($route['best_run_by_time']))
+									<script type="text/javascript">
+										msToHMS("{{$route['best_run_by_time']['time']}}");
+									</script>
+									@else
+										-
+									@endif
+								</div>
+								<div class="col-sm-4">
+									@if(isset($route['best_run_by_rpg']))
+										{{$route['best_run_by_rpg']['rpgs']}} (<script type="text/javascript">msToHMS("{{$route['best_run_by_rpg']['time']}}");</script>)
+									@else
+										-
+									@endif
+								</div>
+							</div>
 						</td>
-						<td>
-							@if($map['release_date'] == "1998-11-28")
-								unknown
-							@else 
-								{{$map['release_date']}}
-							@endif
-						</td>
-
 					</tr>
+					@endforeach
                 @endif
 				@endforeach
 				</tbody>

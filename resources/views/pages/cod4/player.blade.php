@@ -81,9 +81,9 @@
 						@for ($i = 0; $i < count($mostRuns); $i++)
 						<tr>
 							<td>{{$i+1}}</td>
-							<td><a href="/cod4/player/{{$mostFirstTimes[$i]['guid']}}">{{$mostFirstTimes[$i]["alias"]}}</a> ({{$mostFirstTimes[$i]["amountTime1st"]}})</td>
-							<td><a href="/cod4/player/{{$mostFirstRPGs[$i]['guid']}}">{{$mostFirstRPGs[$i]["alias"]}}</a> ({{$mostFirstRPGs[$i]["amountRPG1st"]}})</td>
-							<td><a href="/cod4/player/{{$mostRuns[$i]['guid']}}">{{$mostRuns[$i]["alias"]}}</a> ({{$mostRuns[$i]["runs"]}})</td>
+							<td><a href="/cod4/statistics/{{$mostFirstTimes[$i]['guid']}}">{{$mostFirstTimes[$i]["alias"]}}</a> ({{$mostFirstTimes[$i]["amountTime1st"]}})</td>
+							<td><a href="/cod4/statistics/{{$mostFirstRPGs[$i]['guid']}}">{{$mostFirstRPGs[$i]["alias"]}}</a> ({{$mostFirstRPGs[$i]["amountRPG1st"]}})</td>
+							<td><a href="/cod4/statistics/{{$mostRuns[$i]['guid']}}">{{$mostRuns[$i]["alias"]}}</a> ({{$mostRuns[$i]["runs"]}})</td>
 						</tr>
 					@endfor
 					</tbody>
@@ -94,7 +94,7 @@
 						<tr>
 							<td>Most #1 Time</td>
 							@for ($i = 0; $i < 20; $i++)
-								<td><a href="/cod4/player/{{$mostFirstTimes[$i]['guid']}}">{{$mostFirstTimes[$i]["alias"]}}</a> ({{$mostFirstTimes[$i]["amountTime1st"]}})</td>
+								<td><a href="/cod4/statistics/{{$mostFirstTimes[$i]['guid']}}">{{$mostFirstTimes[$i]["alias"]}}</a> ({{$mostFirstTimes[$i]["amountTime1st"]}})</td>
 							@endfor
 						</tr>
 					</tbody>
@@ -104,7 +104,7 @@
 						<tr>
 							<td>Most #1 RPGs</td>
 							@for ($i = 0; $i < 20; $i++)
-								<td><a href="/cod4/player/{{$mostFirstRPGs[$i]['guid']}}">{{$mostFirstRPGs[$i]["alias"]}}</a> ({{$mostFirstRPGs[$i]["amountRPG1st"]}})</td>
+								<td><a href="/cod4/statistics/{{$mostFirstRPGs[$i]['guid']}}">{{$mostFirstRPGs[$i]["alias"]}}</a> ({{$mostFirstRPGs[$i]["amountRPG1st"]}})</td>
 							@endfor
 						</tr>
 					</tbody>
@@ -114,7 +114,7 @@
 						<tr>
 							<td>Most Runs</td>
 							@for ($i = 0; $i < 20; $i++)
-								<td><a href="/cod4/player/{{$mostRuns[$i]['guid']}}">{{$mostRuns[$i]["alias"]}}</a> ({{$mostRuns[$i]["runs"]}})</td>
+								<td><a href="/cod4/statistics/{{$mostRuns[$i]['guid']}}">{{$mostRuns[$i]["alias"]}}</a> ({{$mostRuns[$i]["runs"]}})</td>
 							@endfor
 						</tr>
 					</tbody>
@@ -158,8 +158,8 @@
 				for(let i = 0; i < res.players.length; i++){
 					htmlView += `
 						<p>
-							<a href="/cod4/player/`+res.players[i].guidShort+`">`+res.players[i].alias+`</a> 
-							(<a href="/cod4/player/`+res.players[i].guidShort+`">`+res.players[i].guidShort+`</a>)
+							<a href="/cod4/statistics/`+res.players[i].guidShort+`">`+res.players[i].alias+`</a> 
+							(<a href="/cod4/statistics/`+res.players[i].guidShort+`">`+res.players[i].guidShort+`</a>)
 						</p>`;
 				}
 				$('#search_result').html(htmlView);

@@ -42,28 +42,58 @@ class StatisticsController extends Controller
                 ->orderBy('name')
                 ->get();
 
-        $player = Player::with('bestRunByTime.routeExternal.map')
+        $playerData = Player::with('topTimePlayer.mapExternal', 'topRPGPlayer.mapExternal', 'topTimeHaxPlayer.mapExternal', 'topRPGHaxPlayer.mapExternal')
                 ->where('guidShort', $playerGuid)
                 ->first();
-               
+
+        $playerBestTime = Player::with('bestRunByTime.routeExternal.map')
+                ->where('guidShort', $playerGuid)
+                ->first();
+
+        $playerBestRPG = Player::with('bestRunByRPG.routeExternal.map')
+                ->where('guidShort', $playerGuid)
+                ->first();
+
+        $longestRuns = Player::with('longestRuns.routeExternal.map')
+                ->where('guidShort', $playerGuid)
+                ->first();
 
         $mapsData = $maps->toArray();
-        $playerData = $player->toArray();
+        $playerDataBestTimes = $playerBestTime->toArray();
+        $playerDataBestRPG = $playerBestRPG->toArray();
 
+        $routeCounter = 0;
+        $finishedRouteCounter = 0;
         foreach($mapsData as &$map) {
             foreach ($map['routes_external'] as &$route) {
-                foreach($playerData['best_run_by_time'] as $bestRun) {
+                $resetCounter = true;
+
+                $routeCounter++;
+                foreach($playerDataBestTimes['best_run_by_time'] as $bestRun) {
                     if($bestRun['way_id'] == $route['id']) {
+                        if($resetCounter) {
+                            $finishedRouteCounter++;
+                            $resetCounter = false;
+                        }
                         unset($bestRun['route_external']);
                         $route['best_run_by_time'] = $bestRun;
-                        // $route['test'] = "Helo";
+                    }
+                }
+                foreach($playerDataBestRPG['best_run_by_r_p_g'] as $bestRun) {
+                    if($bestRun['way_id'] == $route['id']) {
+                        unset($bestRun['route_external']);
+                        $route['best_run_by_rpg'] = $bestRun;
                     }
                 }
             }
         }
 
         $data = [
-            'mapsData'  => $mapsData
+            'mapsData'  => $mapsData,
+            'routeCounter'  => $routeCounter,
+            'finishedRouteCounter'  => $finishedRouteCounter,
+            'playerData'  => json_decode($playerData, true),
+            'longestRuns'  => json_decode($longestRuns, true)
         ];
         
         // return json_encode($mapsData);
