@@ -20,6 +20,16 @@ class Player extends Model
         return $this->hasMany(Run::class, "guid", "guid")->where('cheats', 0)->orderBy('created_date', 'DESC');
     }
 
+    public function bestRunByTime() 
+    {
+        return $this->hasMany(Run::class, "guid", "guid")->where('cheats', 0)->orderBy('time', 'DESC')->groupBy('way_id');
+    }
+
+    public function bestRunByRPG() 
+    {
+        return $this->hasMany(Run::class, "guid", "guid")->where('cheats', 0)->groupBy('way_id')->orderBy('rpgs');
+    }
+
     public function longestRuns() 
     {
         return $this->hasMany(Run::class, "guid", "guid")->select('guid', 'way_id', 'time')->where('cheats', 0)->orderBy('time', 'DESC')->limit(20);

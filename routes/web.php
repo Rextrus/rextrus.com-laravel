@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\cod4\MapsController;
 use App\Http\Controllers\cod4\RoutesController;
 use App\Http\Controllers\cod4\PlayersController;
+use App\Http\Controllers\cod4\StatisticsController;
 use App\Http\Controllers\cod4\ServersController;
 
 /*
@@ -48,3 +49,7 @@ Route::resource('/cod4/player', PlayersController::class)->only([
 ]);
 
 Route::post('/cod4/player/search',[PlayersController::class,'findPlayer'])->name('player.search');
+
+Route::resource('/cod4/statistics', StatisticsController::class)->only([
+    'index', 'show'
+]);

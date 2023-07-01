@@ -29,36 +29,7 @@ if(isSet($_GET['map'])) {
 	}, 1000);
 
 	</script>";
-	// $mappath = "/var/www/download/content/cod4/usermaps/$map/";
-	// $file = "/var/www/download/temp/$map.zip";
 
-	// if(!file_exists($file)) {
-	// 	$zip = new ZipArchive();
-	// 	$res = $zip->open($file, ZipArchive::CREATE | ZIPARCHIVE::OVERWRITE);
-	// 	if($res === FALSE){
-	// 		return false;
-	// 	}
-
-	// 	$zip->addFile($mappath . $map . ".ff", $map . ".ff");
-	// 	$zip->addFile($mappath . $map . "_load.ff", $map . "_load.ff");
-	// 	$zip->addFile($mappath . $map . ".iwd", $map . ".iwd");
-
-	// 	$zip->close();
-	// }
-
-	// header("Content-Type: application/zip");
-	// header("Content-Length: " . filesize($file));
-	// header("Content-Disposition: attachment; filename=" . basename($file));
-	// ob_clean();
-
-	// // $dbhost = SQL_HOST;
-	// // $pdo = new PDO("mysql:host=$dbhost;dbname=web", SQL_USER, SQL_PASSWORD);
-	// // // printLog("[Downloads] $map was downloaded");     
-	// // $statement = $pdo->prepare("UPDATE usermaps SET download = download + 1  WHERE name = :name");
-	// // $statement->execute(array('name' => $map));
-
-	// readfile($file);
-	// unlink($file);
 }
 
 
