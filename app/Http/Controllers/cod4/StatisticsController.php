@@ -65,6 +65,10 @@ class StatisticsController extends Controller
         $routeCounter = 0;
         $finishedRouteCounter = 0;
         foreach($mapsData as &$map) {
+            $map['routes_external'] = array_filter($map['routes_external'], function($route) {
+                return strcasecmp($route['name'], "BOT") !== 0;
+            });
+
             foreach ($map['routes_external'] as &$route) {
                 $resetCounter = true;
 

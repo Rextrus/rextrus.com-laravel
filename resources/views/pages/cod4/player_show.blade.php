@@ -144,7 +144,7 @@
 				<input type="text" id="searchInput" onkeyup="filterMaps()" placeholder="Search for runs">
 			</div>
 
-			<table class="table table-hover" id="runsTable">
+			<table class="table table-hover table-sm" id="runsTable">
 				<thead class="no-mobile">
 					<tr class="header">
 						<th scope="col">#</th>

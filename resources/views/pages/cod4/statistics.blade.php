@@ -156,7 +156,7 @@
 							click <a href="/cod4/player/{{$playerData['guidShort']}}">here</a> to see all runs
 						</p>
 					</div>
-                    <p>Note: Only maps which can be played in speedrun are displayed</p>
+                    <p>Note: Only maps which can be played legit in speedruns are displayed</p>
 				</div>
 			</div>
 			
@@ -188,36 +188,36 @@
 				<tbody>
 				@foreach($mapsData as $key=>$map)
                 @if($map["routes_external"] != null)
-				@foreach($map["routes_external"] as $keytwo=>$route)
-					<tr>
-						@if($keytwo == 0)
-							<td rowspan="{{count($map["routes_external"])}}" scope="row"><a href="/cod4/map/{{$map["name"]}}">{{$map["name"]}}</a></td>
-						@endif
-						{{-- <td scope="row">{{$key+1}}</td> --}}
-						<td scope="row">
-							<div class="row">
-								<div class="col-sm-4">
-									<a href="/cod4/route/{{$route['id']}}">{{$route['name']}}</a>
-								</div>
-								<div class="col-sm-4">
-									@if(isset($route['best_run_by_time']))
-									<script type="text/javascript">
-										msToHMS("{{$route['best_run_by_time']['time']}}");
-									</script>
-									@else
-										-
-									@endif
-								</div>
-								<div class="col-sm-4">
-									@if(isset($route['best_run_by_rpg']))
-										{{$route['best_run_by_rpg']['rpgs']}} (<script type="text/javascript">msToHMS("{{$route['best_run_by_rpg']['time']}}");</script>)
-									@else
-										-
-									@endif
-								</div>
-							</div>
-						</td>
-					</tr>
+					@foreach($map["routes_external"] as $keytwo=>$route)
+							<tr>
+								@if($keytwo == 0)
+									<td rowspan="{{count($map["routes_external"])}}" scope="row"><a href="/cod4/map/{{$map["name"]}}">{{$map["name"]}}</a></td>
+								@endif
+								{{-- <td scope="row">{{$key+1}}</td> --}}
+								<td scope="row">
+									<div class="row">
+										<div class="col-sm-4">
+											<a href="/cod4/route/{{$route['id']}}">{{$route['name']}}</a>
+										</div>
+										<div class="col-sm-4">
+											@if(isset($route['best_run_by_time']))
+											<script type="text/javascript">
+												msToHMS("{{$route['best_run_by_time']['time']}}");
+											</script>
+											@else
+												-
+											@endif
+										</div>
+										<div class="col-sm-4">
+											@if(isset($route['best_run_by_rpg']))
+												{{$route['best_run_by_rpg']['rpgs']}} (<script type="text/javascript">msToHMS("{{$route['best_run_by_rpg']['time']}}");</script>)
+											@else
+												-
+											@endif
+										</div>
+									</div>
+								</td>
+							</tr>
 					@endforeach
                 @endif
 				@endforeach

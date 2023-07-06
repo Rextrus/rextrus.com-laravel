@@ -68,7 +68,7 @@
 				</div>
 			</div>
 			{{-- <div class="content-box-desc"> --}}
-				<table class="table table-hover no-mobile" id="mapsTable">
+				<table class="table table-hover table-sm no-mobile" id="mapsTable">
 					<thead class="no-mobile">
 						<tr>
 							<th scope="col">#</th>

@@ -106,7 +106,7 @@ table tr th:nth-child(3){
 							<span id='players-more' style='display: none;'>
 							@foreach($players as $player)
 								@if($player)
-									<p><a href="/cod4/player/{{$player['guidShort']}}">{{$player['alias']}}</a></p>
+									<p><a href="/cod4/statistics/{{$player['guidShort']}}">{{$player['alias']}}</a></p>
 								@else	
 									{{-- <p><a href="/cod4/player/{{$player['guidShort']}}">{{$player['alias']}}</a></p> --}}
 								@endif

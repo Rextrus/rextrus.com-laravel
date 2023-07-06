@@ -157,7 +157,7 @@ body {
 			</div>
 			
 			<form action="/cod4/map" method="get">
-			<table class="table table-hover" id="mapsTable">
+			<table class="table table-hover table-sm" id="mapsTable">
 				<thead class="no-mobile">
 					<tr>
 						<th scope="col">#</th>
@@ -197,7 +197,7 @@ body {
 						<td colspan="12" class="hiddenRow">
 						<div class="accordian-body collapse" id="demo{{$key}}"> 
 							@if(count($map["routes_external"]) > 0)
-							<table class="table table-padding table-colored">
+							<table class="table table-padding table-colored table-sm">
 								<thead>
 									<tr class="info">
 										<th class="col-route">Route</th>
