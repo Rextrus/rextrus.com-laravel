@@ -219,7 +219,7 @@ body {
 										@endif
 
 										@if(count($routeInfo["routes_internal"]["top_time_player"]) > 0)
-											<td class="col-top"><a href="/cod4/player/{{$routeInfo["routes_internal"]["top_time_player"][0]["guidShort"]}}">{{$routeInfo["routes_internal"]["top_time_player"][0]["alias"]}}</a>
+											<td class="col-top"><a href="/cod4/statistics/{{$routeInfo["routes_internal"]["top_time_player"][0]["guidShort"]}}">{{$routeInfo["routes_internal"]["top_time_player"][0]["alias"]}}</a>
 												<script type="text/javascript">										
 													msToHMS("{{$routeInfo["routes_internal"]["toptime"]}}");
 												</script>
@@ -229,7 +229,7 @@ body {
 										@endif
 
 										@if(count($routeInfo["routes_internal"]["top_r_p_g_player"]) > 0)
-											<td class="col-top"><a href="/cod4/player/{{$routeInfo["routes_internal"]["top_r_p_g_player"][0]["guidShort"]}}">{{$routeInfo["routes_internal"]["top_r_p_g_player"][0]["alias"]}}</a> ({{$routeInfo["routes_internal"]["topRPG"]}})</td>
+											<td class="col-top"><a href="/cod4/statistics/{{$routeInfo["routes_internal"]["top_r_p_g_player"][0]["guidShort"]}}">{{$routeInfo["routes_internal"]["top_r_p_g_player"][0]["alias"]}}</a> ({{$routeInfo["routes_internal"]["topRPG"]}})</td>
 										@else
 											<td class="col-top">not available</td>
 										@endif

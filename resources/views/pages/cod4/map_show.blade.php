@@ -80,7 +80,7 @@
 									<p style="font-weight: bold;">#1 Time</p>
 									@foreach($mapRoutes['routes_external'] as $route)
 									@if($route["routes_internal"]["top_time_player"])
-										<p><a href="/cod4/player/{{$route["routes_internal"]["top_time_player"][0]['guidShort']}}">
+										<p><a href="/cod4/statistics/{{$route["routes_internal"]["top_time_player"][0]['guidShort']}}">
 										{{$route["routes_internal"]["top_time_player"][0]["alias"]}}</a>
 										(<script type="text/javascript">msToHMS("{{$route["routes_internal"]["toptime"]}}");</script>)</p>
 									@else
@@ -93,7 +93,7 @@
 									@foreach($mapRoutes['routes_external'] as $route)
 									<p>
 										@if(count($route["routes_internal"]["top_r_p_g_player"]) > 0)
-										<a href="/cod4/player/{{$route["routes_internal"]["top_r_p_g_player"][0]['guidShort']}}">{{$route["routes_internal"]["top_r_p_g_player"][0]["alias"]}}</a> ({{$route["routes_internal"]["topRPG"]}})
+										<a href="/cod4/statistics/{{$route["routes_internal"]["top_r_p_g_player"][0]['guidShort']}}">{{$route["routes_internal"]["top_r_p_g_player"][0]["alias"]}}</a> ({{$route["routes_internal"]["topRPG"]}})
 										@else
 											not available
 										@endif

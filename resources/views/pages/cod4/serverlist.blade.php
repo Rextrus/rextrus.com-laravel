@@ -138,7 +138,11 @@ table tr th:nth-child(3){
 					<td>
 						<div class="row" style="margin:auto;">
 							<div class="col" style="max-width: 70px;">
-								<img src="/Images/cod4/icons/{{$server['owner']}}_128px.png" alt="3xp_logo" width="45px" height="45px" style="margin-right:20px;">
+								@if(file_exists(public_path('/Images/cod4/icons/' . $server['owner'] . '_128px.png')))
+									<img src="/Images/cod4/icons/{{$server['owner']}}_128px.png" alt="3xp_logo" width="45px" height="45px" style="margin-right:20px;">
+								@else
+									<img src="/Images/cod4/icons/nologo.png" alt="{{$server['owner']}}" width="45px" height="45px" style="margin-right:20px;">
+								@endif
 							</div>					
 							<div class="col">
 								{{$server['currentMOTD']}}
