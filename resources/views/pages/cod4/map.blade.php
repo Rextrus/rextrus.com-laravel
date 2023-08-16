@@ -38,24 +38,6 @@ if(isSet($_GET['map'])) {
 
 <style>
 
-body {
-	background: #0D1017;
-	background: -moz-linear-gradient(top, #0D1017 9%, #1b2637 23%, #0c0f16 100%);
-	background: -webkit-linear-gradient(top, #0D1017 9%, #1b2637 23%, #0c0f16 100%);
-	background: linear-gradient(to bottom, #0D1017 9%, #1b2637 23%, #0c0f16 100%);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-#map .content-box-desc .chart_div {
-	margin: auto;
-}
-
-#map .content-box-desc {
-	
-	background-color: #14171c !important;
-}
-
 @media (max-width: 479px) {
 	td:nth-of-type(1):before { content: "#"; }
 	td:nth-of-type(2):before { content: "map"; }
@@ -64,113 +46,118 @@ body {
 }
 
 </style>
-<section id="maps">
-		@if(count($maps) > 0)
-			<div class="content-box-title">
-				<div class="row" style="padding-top: 8px;">
-					<h3>codjumper maps</h3>
-				</div>
-			</div>
-			<div class="content-box-desc">
-				<div class="row quickInfo" style="top: 10px;">
-					<div class="col-sm-4 chart no-mobile">
-						@include('inc.map_chart')
-						<div id="chart_div" style="margin: auto;"></div>
-					</div>
-					<div class="col-sm-4 left">
-						<p style="margin-top: 10px;">popular maps</p>
-						<p>
-							@foreach($popularMaps as $key=>$popularMap)
-								#{{$key+1}} <a href="/cod4/map/{{$popularMap['name']}}">{{$popularMap["name"]}}</a> - {{$popularMap["totalRuns"]}} runs<br>
-							@endforeach
-						</p>
-					</div>
-					<div class="col-sm-4 right" >
-						<p style="margin-top: 10px;">latest maps</p>
-						<p>
-							@foreach($latestMaps as $key=>$latestMap)
-							@php
-								if(!$latestMap['date'])
-									$mapAdded = "long time";
-								else {
-									$now = time();
-									$releaseTime = strtotime($latestMap['date']);
-									$datediff = $now - $releaseTime;
-									$days = floor($datediff / (60 * 60 * 24));
-									$hours = floor($datediff / (60 * 60));
-									$minutes = floor($datediff / (60));
 
-									if($days < 1) {
-										if($hours < 0) {
-											if($minutes != 0)
-												$mapAdded = "$minutes minutes";
-										} elseif($hours == 1) {
-											$mapAdded = "$hours hour";
-										}  else {
-											$mapAdded = "$hours hours";
-										}
-									} elseif($days == 1) {
-										$mapAdded = "$days day";
-									} else {
-										$mapAdded = "$days days";
-									}
-								}
-							@endphp
-								<a href='/cod4/map/{{$latestMap['name']}}'>{{$latestMap['name']}}</a> - {{$mapAdded}} ago<br>
-							@endforeach
-						</p>
-					</div>
-				</div>
+<section id="maplist">
+	@if(count($maps) > 0)
+	{{-- <div class="description-box">
+
+	</div> --}}
+	<div class="description-box">
+		<div class="row quickInfo">
+			<div class="col-sm-4 left" style="margin-top: 10px;">
+				<p>most popular maps</p>
+				<p>
+					@foreach($popularMaps as $key=>$popularMap)
+						{{-- {{$key+1}} --}}  {{$popularMap["totalRuns"]}} runs - <a href="/cod4/map/{{$popularMap['name']}}">{{$popularMap["name"]}}</a><br>
+					@endforeach
+				</p>
 			</div>
-			<div class="content-box-info">
-				<div class="row" style="padding-top: 25px;">
-					<div class="col-sm-4">
-						<p>{{count($maps)}} maps</p>
-					</div>
-					<div class="col-sm-4">
-						<p>
-							@php
-								$count = 0;
-								foreach($maps as $map) {
-									$count += $map['totalRuns'];
-								}
-								echo $count . " runs";
-							@endphp
-						</p>
-					</div>
-					<div class="col-sm-4">
-						<p>
-							@php
-								$count = 0;
-								foreach($maps as $map) {
-									$count += $map['download'];
-								}
-								echo $count . " downloads";
-							@endphp
-						</p>
-					</div>
-				</div>
+			<div class="col-sm-4 chart no-mobile">
+				{{-- @include('inc.map_chart') 
+				<div id="chart_div" style="margin: auto;"></div> --}}
+				<img src="/Images/logos/codjumper.png" alt="codjumper" style="margin-top:20px;">
+				<h2>maps</h2>
 			</div>
-			
-			<div class="inputSearchEngine">
-				<input type="text" id="searchInput" onkeyup="filterMaps()" placeholder="Search for maps or route name">
+			<div class="col-sm-4 right" >
+				<p style="margin-top: 10px; text-align:">latest maps</p>
+				<p>
+					@foreach($latestMaps as $key=>$latestMap)
+					@php
+						if(!$latestMap['date'])
+							$mapAdded = "long time";
+						else {
+							$now = time();
+							$releaseTime = strtotime($latestMap['date']);
+							$datediff = $now - $releaseTime;
+							$days = floor($datediff / (60 * 60 * 24));
+							$hours = floor($datediff / (60 * 60));
+							$minutes = floor($datediff / (60));
+
+							if($days < 1) {
+								if($hours < 0) {
+									if($minutes != 0)
+										$mapAdded = "$minutes minutes";
+								} elseif($hours == 1) {
+									$mapAdded = "$hours hour";
+								}  else {
+									$mapAdded = "$hours hours";
+								}
+							} elseif($days == 1) {
+								$mapAdded = "$days day";
+							} else {
+								$mapAdded = "$days days";
+							}
+						}
+					@endphp
+						<a href='/cod4/map/{{$latestMap['name']}}'>{{$latestMap['name']}}</a> - {{$mapAdded}} ago<br>
+					@endforeach
+				</p>
 			</div>
-			
-			<form action="/cod4/map" method="get">
-			<table class="table table-hover table-sm" id="mapsTable">
+		</div>
+	</div>
+    <div class="hr"></div>
+	<div class="description-box">
+		<div class="row" style="padding-top: 20px;">
+			<div class="col-sm-4">
+				<p>{{count($maps)}} maps</p>
+			</div>
+			<div class="col-sm-4">
+				<p>
+					@php
+						$count = 0;
+						foreach($maps as $map) {
+							$count += $map['totalRuns'];
+						}
+						echo $count . " runs";
+					@endphp
+				</p>
+			</div>
+			<div class="col-sm-4">
+				<p>
+					@php
+						$count = 0;
+						foreach($maps as $map) {
+							$count += $map['download'];
+						}
+						echo $count . " downloads";
+					@endphp
+				</p>
+			</div>
+		</div>
+	</div>
+		
+    <div class="hr"></div>
+	<div class="inputSearchEngine">
+		<input type="text" id="searchInput" onkeyup="filterMaps()" placeholder="search for maps or route name"  style="height: 50px; font-size:18px;">
+	</div>
+    <div class="hr"></div>
+		
+	<form action="/cod4/map" method="get">
+		<div class="card table-responsive" style="min-width:100%; top: 10px;">
+			<table class="table table-sm table-hover table-fixed" id="mapsTable">
 				<thead class="no-mobile">
 					<tr>
 						<th scope="col">#</th>
-						<th scope="col">map</th>
-						<th scope="col">author</th>
-						<th scope="col">release date</th>
-						<th scope="col no-mobile">action</th>
+						<th scope="col">Map</th>
+						<th scope="col">Author</th>
+						<th scope="col">Release Date</th>
+						<th scope="col no-mobile">Action</th>
 					</tr>
 				</thead>
 				<tbody>
 				@foreach($maps as $key=>$map)
 					@if(count($map["routes_external"]) > 0)
-						<tr data-toggle="collapse" data-target="#demo{{$key}}" class="accordion-toggle content">
+						<tr data-toggle="collapse" data-target="#demo{{$key}}" class="accordion-toggle content" aria-expanded="false">
 					@else 
 						<tr>
 					@endif
@@ -187,30 +174,28 @@ body {
 							@endif
 						</td>
 						<td class="no-mobile">
-							{{-- <input type='submit' class="btn btn-outline-dark me-2 greyText" name='map' style='cursor:pointer;' value='{{$map['name']}}'> --}}
-							{{-- <button type="submit" class="btn btn-outline-dark me-2">Download</button> --}}
-							<a target="_blank" type="button" class="btn btn-outline-dark me-2" href="/cod4/map/download/{{$map['name']}}">Download</a>
+							<a target="_blank" type="button" href="/cod4/map/download/{{$map['name']}}"><img width="25px" height="25px" class="invert-color"  src="/Images/icons/download.png" alt="Download"> </a>
 						</td>
 					</tr>
 
 					<tr class="no-mobile">
 						<td colspan="12" class="hiddenRow">
-						<div class="accordian-body collapse" id="demo{{$key}}"> 
+						<div class="collapse" id="demo{{$key}}"> 
 							@if(count($map["routes_external"]) > 0)
-							<table class="table table-padding table-colored table-sm">
+							<table class="table table-striped tablestyle">
 								<thead>
 									<tr class="info">
 										<th class="col-route">Route</th>
 										<th class="col-runs">Runs</th>
 										<th class="col-top">#1 Time</th>	
 										<th class="col-top">#1 RPG</th>	
-										<th class="col-action">YouTube</th>	
+										<th class="col-action">Walkthrough</th>	
 									</tr>
 								</thead>		
 								<tbody>
 								@if($map["routes_external"])
 									@foreach($map["routes_external"] as $routeInfo)
-									<tr data-toggle="collapse"  class="accordion-toggle" data-target="#demo{{$key}}">
+									<tr>
 										<td class="mapsChild"><a href="/cod4/route/{{$routeInfo['id']}}">{{$routeInfo['name']}}</a></td>
 										@if(count($routeInfo["count_runs"]) > 0)
 											<td>{{$routeInfo["count_runs"][0]["runs"]}}</td>
@@ -229,15 +214,16 @@ body {
 										@endif
 
 										@if(count($routeInfo["routes_internal"]["top_r_p_g_player"]) > 0)
-											<td class="col-top"><a href="/cod4/statistics/{{$routeInfo["routes_internal"]["top_r_p_g_player"][0]["guidShort"]}}">{{$routeInfo["routes_internal"]["top_r_p_g_player"][0]["alias"]}}</a> ({{$routeInfo["routes_internal"]["topRPG"]}})</td>
+											<td class="col-top"><a href="/cod4/player/{{$routeInfo["routes_internal"]["top_r_p_g_player"][0]["guidShort"]}}">{{$routeInfo["routes_internal"]["top_r_p_g_player"][0]["alias"]}}</a> ({{$routeInfo["routes_internal"]["topRPG"]}})</td>
 										@else
 											<td class="col-top">not available</td>
 										@endif
 
 										@if($routeInfo["routes_internal"]["walkthrough"] > 0)
-											<td><a target="_blank" type="button" class="btn btn-outline-dark me-2" href="https://www.youtube.com/watch?v={{$routeInfo["routes_internal"]["walkthrough"]}}">&#x2192;</a></td>
+											<td><a target="_blank" href="https://www.youtube.com/watch?v={{$routeInfo["routes_internal"]["walkthrough"]}}">Youtube<img src="/Images/icons/external_link.png" alt="External Link Icon" width="18px" height="18px" class="invert-color"></a></td>
+											{{-- <td><a target="_blank" type="button" class="btn btn-outline-dark me-2" href="https://www.youtube.com/watch?v={{$routeInfo["routes_internal"]["walkthrough"]}}">&#x2192;</a></td> --}}
 										@else
-											<td class="col-top"></td>
+											<td class="col-top">-</td>
 										@endif
 									</tr>
 									@endforeach
@@ -253,11 +239,12 @@ body {
 				@endforeach
 				</tbody>
 			</table>
-			</form>
-			<hr>
-			@else
-				<p>No maps found</p>
-			@endif
+		</div>
+	</form>
+		<hr>
+		@else
+			<p>No maps found</p>
+		@endif
 		<script>
 
 			function filterMaps() {

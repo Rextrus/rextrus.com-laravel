@@ -1,8 +1,7 @@
-
 <style>
 
 body {
-	background-color: #14171c !important;
+	/* background-color: #14171c !important; */
 	font-family: colaborate-thinregular,sans-serif;
 	letter-spacing: 2px;
 	text-transform: uppercase;
@@ -45,45 +44,70 @@ nav {
 		min-width: 1450px !important;
 	}
 }
+
+.padding-0{
+    padding-right:0;
+    /* padding-left:0; */
+}
+
+.rextrus-dark {
+  background: #1a1c28;
+}
+
+.invert-color {
+  filter: invert(80%);
+}
+.nav-pills .nav-link.active {
+  background-color: rgba(15, 17, 28, 0.6);
+}
 </style>
 
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark-custom">
-  <div class="container">
-  <!-- <a class="navbar-brand" href="#">Navbar w/ text</a> -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a href="/cod4/serverlist" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none navbar-text">
-      <img src="/Images/rextrus_avatar.png" width="32px" height="32px" alt="Rextrus" style="margin-right: 15px;">
-      Rextrus.com
-    </a>
-
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav ml-auto">
-        {{-- <li class="nav-item active">
-          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-        </li> --}}
-        <li class="nav-item">
-          <a class="nav-link" href="/aboutme/timeline">about me</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            CJ  
+{{-- <div class="container-fluid"> --}}
+  <div class="row" > 
+    {{-- <div class=""> --}}
+      <div class="col-1 d-flex flex-column flex-shrink-0 rextrus-dark padding-0" style="max-width:90px;  overflow-y: scoll; top:0; bottom:0; position: fixed;border-right: solid 1px #bbbaba;">
+        <a href="/" class="d-block p-3 link-dark text-decoration-none" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">
+          <img width="40" height="40" src="/Images/rextrus_avatar.png" alt="rextrus_avatar">
+          {{-- <svg class="bi" width="40" height="32"><use xlink:href="#bootstrap"></use></svg> --}}
+          <span class="visually-hidden">Icon-only</span>
+        </a>
+        <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
+          <li class="nav-item">
+            <a href="/cod4/serverlist" class="nav-link py-3 border-bottom {{ (request()->is('cod4/serverlist*')) ? 'active' : '' }}" aria-current="page" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
+              {{-- <svg class="bi" width="24" height="24" role="img" aria-label="Home"><use xlink:href="#home"></use></svg> --}}
+              <img class="invert-color" width="30" height="30" src="/Images/icons/server.png" alt="Serverlist">
+            </a>
+          </li>
+          <li>
+            <a href="/cod4/map" class="nav-link py-3 border-bottom {{ (request()->is('cod4/map*')) ? 'active' : '' }}" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Dashboard">
+              {{-- <svg class="bi" width="24" height="24" role="img" aria-label="Dashboard"><use xlink:href="#speedometer2"></use></svg> --}}
+              <img class="invert-color" width="24" height="24" src="/Images/icons/map.png" alt="Maps">
+            </a>
+          </li>
+          <li>
+            <a href="/cod4/player" class="nav-link py-3 border-bottom {{ (request()->is('cod4/player*')) ? 'active' : '' }}" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
+              {{-- <svg class="bi" width="24" height="24" role="img" aria-label="Orders"><use xlink:href="#table"></use></svg> --}}
+              <img class="invert-color" width="28" height="28" src="/Images/icons/runner.png" alt="Player">
+            </a>
+          </li>
+          <li>
+            <a href="/cod4/leaderboard" class="nav-link py-3 border-bottom {{ (request()->is('cod4/leaderboard*')) ? 'active' : '' }}" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Orders">
+              {{-- <svg class="bi" width="24" height="24" role="img" aria-label="Orders"><use xlink:href="#table"></use></svg> --}}
+              <img class="invert-color" width="24" height="24" src="/Images/icons/leaderboard.png" alt="leaderboard">
+            </a>
+          </li>
+        </ul>
+        {{-- <div class="dropdown border-top">
+          <a href="#" class="d-flex align-items-center justify-content-center p-3 link-dark text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://github.com/mdo.png" alt="mdo" width="24" height="24" class="rounded-circle">
           </a>
-          <div class="dropdown-menu dropdown-dark" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="/cod4/serverlist">servers</a>
-            <a class="dropdown-item" href="/cod4/map">maps</a>
-            <a class="dropdown-item" href="/cod4/player">players</a>
-          </div>
-        </li>
-      </ul>
+          <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser3">
+            <li><a class="dropdown-item" href="#">New project...</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          </ul>
+        </div> --}}
+      {{-- </div> --}}
     </div>
-  </div>
-</nav>
-
-{{-- <nav class="navbar navbar-inverse navbar-expand-lg navbar-dark" role="navigation">
-  <div class="container">
-
-  </div>
-</nav> --}}

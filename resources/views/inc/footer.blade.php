@@ -1,4 +1,15 @@
-<div class="container">
+</div>
+</div>
+
+</body>
+
+<style>
+    footer {
+        margin-left: 72px;
+    }
+</style>
+
+{{-- <div class="container"> --}}
   <footer class="py-3 my-4">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
       <li class="nav-item"><a href="/cod4/serverlist" class="nav-link px-2 text-muted">servers</a></li>
@@ -9,7 +20,7 @@
     </ul>
     <p class="text-center text-muted">&copy; @php echo date("Y"); @endphp Rextrus.com</p>
   </footer>
-</div>
+{{-- </div> --}}
 
 @php
 

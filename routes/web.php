@@ -6,6 +6,8 @@ use App\Http\Controllers\cod4\RoutesController;
 use App\Http\Controllers\cod4\PlayersController;
 use App\Http\Controllers\cod4\StatisticsController;
 use App\Http\Controllers\cod4\ServersController;
+use App\Http\Controllers\cod4\LeaderboardController;
+// use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,30 +28,29 @@ Route::get('/timeline', function () {
     return view('pages/aboutme/references');
 });
 
-Route::resource('/', ServersController::class)->only([
-    'index'
-]);
-
-Route::resource('/cod4/serverlist', ServersController::class)->only([
-    'index'
-]);
-
+Route::get('/', [ServersController::class, 'index'])->name('servers.index');
+Route::get('/cod4/serverlist', [ServersController::class, 'index']);
 Route::get('/cod4/map/download/{map}', [MapsController::class, 'downloadMap']);
 
 Route::resource('/cod4/map', MapsController::class)->only([
     'index', 'show'
 ]);
+Route::resource('/cod4/route', RoutesController::class)->only('show');
+Route::resource('/cod4/runs', PlayersController::class)->only('show');
+Route::resource('/cod4/leaderboard', LeaderboardController::class)->only('index');
 
-Route::resource('/cod4/route', RoutesController::class)->only([
-    'show'
-]);
-
-Route::resource('/cod4/player', PlayersController::class)->only([
-    'index', 'show'
-]);
+Route::get('/cod4/player', [PlayersController::class, 'index']);
 
 Route::post('/cod4/player/search',[PlayersController::class,'findPlayer'])->name('player.search');
 
 Route::resource('/cod4/statistics', StatisticsController::class)->only([
     'index', 'show'
 ]);
+
+// Register Stuff 
+Route::get('/register', 'RegisterController@create');
+Route::post('register', 'RegisterController@store');
+
+Route::get('/login', 'SessionsController@create');
+Route::post('/login', 'SessionsController@store');
+Route::get('/logout', 'SessionsController@destroy');

@@ -3,7 +3,7 @@
 @section('content')
 
 <style>
-#maps .content-box p, h1, td, tr {
+#serverlist h1, #serverlist td, #serverlist tr {
 	color: #bbbaba;
 	text-transform: none;
 }
@@ -43,153 +43,271 @@ table tr th:nth-child(3){
 }
 
 
+.tooltip-inner  {
+	line-height: 1.3px !important;
+	max-width: 350px !important;
+    width: 150px !important; 
+	background: #11121a !important;
+	text-align: left !important;
+}
+.tooltip-inner a {
+	color: white !important;
+	font-size: 16px !important;
+} 
+
+.tooltiplist {
+	margin-top: 10px !important;
+}
+
+
+
+
 </style>
-<section id="maps">
-	{{-- <div class="container"> --}}
-		<div class="content-box-title">
-			<div class="row justify-content-md-center" style="padding-top: 8px;">
-				<h3>serverlist</h3>
-			</div>
-		</div>
-		<table class="table table-hover" id="mapsTable" style="table-layout: fixed;">
-			<thead class="no-mobile">
+<section id="serverlist">
+    <div class="description-box">
+        <img src="/Images/logos/codjumper.png" alt="codjumper" style="margin-top:20px;">
+        <h2 style="margin-bottom: 20px;">serverlist</h2>
+    </div>
+    <div class="hr"></div>
+    <div class="card table-responsive" style="min-width:100%; top: 10px;">
+        <table class="table table-fixed table-hover">
+            <thead>
+                <tr>
+                    <th style="width:5%;"></th>
+                    <th style="width:30%;">Server</th>
+                    <th style="width:5%;">Country</th>
+                    <th>State</th>
+                    <th>Players</th>
+                    <th>Map</th>
+                    <th>IP Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        
+                        <img src="/Images/cod4/icons/3xp_128px.png" alt="3xp_logo" width="40px" height="40px" style="float:left;">
+                    </td>
+                    <td id="server-3xp-name">
+                        @if(isset($server_3xp_cj_data['rcon']))
+                            {{ $server_3xp_cj_data['serverName'] }}
+                        @endif
+                    </td>
+                    <td class="col-xs-1"><img src="https://flagsapi.com/FR/shiny/32.png"></td>
+                    <td id="server-3xp-state">
+                        @if(isset($server_3xp_cj_data['rcon']) && count($players) > 0)
+                            <img src="/Images/icons/online.png" alt="online" width="30px" height="30px">
+                        @else
+                            <img src="/Images/icons/offline.png" alt="offline" width="30px" height="30px">
+                        @endif
+                    </td>
+                    <td id="server-3xp-players">
+                        @if(count($players) > 0)
+                            @php
+                                $playerList = "<div class='tooltiplist'>";
+                                foreach($players as $player) {
+                                    if($player) {
+                                        $guidShort = $player['guidShort'];
+                                        $alias = $player['alias'];
+                                        $playerList .= "<p><a href='/cod4/statistics/$guidShort'>$alias</a></p>";
+                                    }
+                                }
+                                if(isSet($server_3xp_cj_data['rcon']))
+                                    echo '<a href="#" class="tooltip-css" data-bs-html="true" data-toggle="tooltip" title="' . $playerList . '</div>">' . count($players) . '/' . $server_3xp_cj_data["rcon"]["serv"]["sv_maxclients"]. ' players</a>';
+                            @endphp
+                            </a>
+                        @endif
+                    </td>
+
+                    {{-- <td id="server-3xp-players">
+                        @if(count($players) > 0)
+                            <a href="#" class="tooltip-css" data-bs-html="true" data-toggle="tooltip" title="">
+                                {{ count($players) }}/{{ $server_3xp_cj_data['rcon']['serv']['sv_maxclients'] }} players
+                            </a>
+                        @endif
+                    </td> --}}
+                    <td id="server-3xp-map">
+                        @if(isset($server_3xp_cj_data['rcon']))
+                            <a style="color: #FFF;" href="/cod4/map/{{ $server_3xp_cj_data['rcon']['serv']['mapname'] }}">
+                                {{ $server_3xp_cj_data['rcon']['serv']['mapname'] }}
+                            </a>
+                        @endif
+                    </td>
+                    <td id="server-3xp-ip">
+                        {{ $server_3xp_cj_data['serverIP'] }}:{{ $server_3xp_cj_data['serverPort'] }}
+                    </td>
+                </tr>
+
+                {{-- Rest of the servers --}}
+				@foreach($servers as $serverKey => $server)
 				<tr>
-					<th>map</th>
-					<th></th>
-					<th>players</th>
-					<th>ip:port</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>				
 					<td>
-						<div class="table-map-img" style="position: relative; max-width: 200px;">
-							@php 
-							if(isSet($server_3xp_cj_data['rcon'])) {
-								$loadscreen = $server_3xp_cj_data['rcon']['serv']['mapname'];								
-								if(!file_exists("/Images/cod4/loadscreens/$loadscreen.png")) {
-									$loadscreen = "no_loadscreen";
-								} 
-							}
-							else {
-								$loadscreen = "no_loadscreen";
-							}
-
-							@endphp
-							<img src="/Images/cod4/loadscreens/{{$loadscreen}}.png" height="112" width="200">
-							<div class="trapeziumTopLeft" style="position: absolute;">
-								@php if(isSet($server_3xp_cj_data['rcon']))
-									echo '<div class="textTopLeft"><a style="position: absolute; color: #FFF; text-transform: none;" href="/cod4/map/' . $server_3xp_cj_data["rcon"]["serv"]["mapname"] . '">' . $server_3xp_cj_data["rcon"]["serv"]["mapname"]. '</a></div>';
-								@endphp
-							</div>
-						</div>
+                        @if(file_exists(public_path('/Images/cod4/icons/' . $server['owner'] . '_128px.png')))
+                            <img src="/Images/cod4/icons/{{ $server['owner'] }}_128px.png" alt="{{ $server['owner'] }}_LOGO" width="40px" height="40px" style="float:left;">
+                        @else
+                            <img class="invert-color"  src="/Images/icons/nologo.png" alt="{{ $server['owner'] }}_LOGO" width="40px" height="40px" style="float:left;">
+                        @endif
+						
 					</td>
-					<td class="leaveFull">
-						<div class="row" style="margin:auto;">
-							<div class="col" style="max-width: 70px;">
-								<img src="/Images/cod4/icons/3xp_128px.png" alt="3xp_logo" width="45px" height="45px" style="margin-right:20px;">
-							</div>					
-							<div class="col">
-								@php if(isSet($server_3xp_cj_data['rcon']))
-									echo $server_3xp_cj_data['serverName'];
-								@endphp
-							</div>					
-						</div>
+					<td id="server-{{ $serverKey }}-name">
+						{{ $server['currentMOTD'] }}
 					</td>
-
-					<td style="line-height: 0.5;">
-						@if(count($players) > 0)
-							@php
-								if(isSet($server_3xp_cj_data['rcon']))
-									echo '<p style="line-height: 1;"> ' . count($players) . '/' . $server_3xp_cj_data["rcon"]["serv"]["sv_maxclients"]. ' players</p>';
-							@endphp
-							<span id='players-more' style='display: none;'>
-							@foreach($players as $player)
-								@if($player)
-									<p><a href="/cod4/statistics/{{$player['guidShort']}}">{{$player['alias']}}</a></p>
-								@else	
-									{{-- <p><a href="/cod4/player/{{$player['guidShort']}}">{{$player['alias']}}</a></p> --}}
-								@endif
-							@endforeach
-							</span>
-							<input type="button" style="text-align: center; margin-top: 10px;" onclick="showMore('players-more', 'players-button')" class="btn btn-outline-dark me-2" id='players-button' value='show playerlist'>
-						@endif
-					</td>
-					<td>
-						{{$server_3xp_cj_data['serverIP']}}:{{$server_3xp_cj_data['serverPort']}}
-					</td>
-				</tr>
-				@foreach($servers as $serverKey=>$server)
-				<tr>				
-					<td>
-						<div class="table-map-img" style="position: relative; max-width: 200px;">
-							@php 
-								$loadscreen = $server['currentMap'];
-								if(!file_exists("Images/cod4/loadscreens/$loadscreen.png")) {
-									$loadscreen = "no_loadscreen";
-								} 
-							@endphp
-							<img src="/Images/cod4/loadscreens/{{$loadscreen}}.png" height="112" width="200">
-							<div class="trapeziumTopLeft" style="position: absolute;">
-								<div class="textTopLeft"><a style="position: absolute; color: #FFF; text-transform: none;" href="/cod4/map/{{$server['currentMap']}}">{{$server['currentMap']}}</a></div>
-							</div>
-						</div>
-					</td>
-					<td>
-						<div class="row" style="margin:auto;">
-							<div class="col" style="max-width: 70px;">
-								@if(file_exists(public_path('/Images/cod4/icons/' . $server['owner'] . '_128px.png')))
-									<img src="/Images/cod4/icons/{{$server['owner']}}_128px.png" alt="3xp_logo" width="45px" height="45px" style="margin-right:20px;">
-								@else
-									<img src="/Images/cod4/icons/nologo.png" alt="{{$server['owner']}}" width="45px" height="45px" style="margin-right:20px;">
-								@endif
-							</div>					
-							<div class="col">
-								{{$server['currentMOTD']}}
-							</div>					
-						</div>
-					</td>
-
-					<td style="line-height: 0.5;">
-						@if($server['get_current_players'])
-							<p style="line-height: 1;">{{count($server['get_current_players'])}}/{{$server['maxClients']}} players</p>						
-							<span id='players-more{{$serverKey}}' style='display: none;'>
-							@if(count($players) > 0)
-								@foreach($server['get_current_players'] as $player)
-									<p>{{$player['player']}}</p>		
-								@endforeach
-							@endif
-							</span>
-							<input type="button" style="text-align: center; margin-top: 10px;" onclick="showMore('players-more{{$serverKey}}', 'players-button{{$serverKey}}')" class="btn btn-outline-dark me-2" id='players-button{{$serverKey}}' value='show playerlist'>
+					<td class="col-xs-1"><img src="https://flagsapi.com/{{ $server['country'] }}/shiny/32.png"></td>
+					<td id="server-{{ $serverKey }}-state">
+						@if($server['status'] == "on")
+							<img src="/Images/icons/online.png" alt="online" width="30px" height="30px">
 						@else
-							<p style="line-height: 1;">0/{{$server['maxClients']}} players</p>		
+							<img src="/Images/icons/offline.png" alt="offline" width="30px" height="30px">
 						@endif
 					</td>
-					<td>
-						{{$server['ip']}}:{{$server['port']}}
+					<td id="server-{{ $serverKey }}-players">
+						@php
+						$playerList = "<div class='tooltiplist'>";
+						$currentPlayers = $server->getCurrentPlayers->toArray(); // Verwende die Methode getCurrentPlayers()
+						
+						if(!empty($currentPlayers)) {
+							if(count($currentPlayers) > 0) {
+								foreach($currentPlayers as $player) {
+									if($player) {
+										$alias = $player['player'];
+										$playerList .= "<p>$alias</p>";
+									}
+								}
+								echo '<a href="#" class="tooltip-css" data-bs-html="true" data-toggle="tooltip" title="' . $playerList . '</div>">' . count($currentPlayers) . '/' . $server['maxClients'] . ' players'. '</a>';
+							}
+						} else {
+							echo '0/' . $server['maxClients'] . ' players';
+						}
+						@endphp
+					</td>
+					<td id="server-{{ $serverKey }}-map">
+						<a style="color: #FFF;" href="/cod4/map/{{ $server['currentMap'] }}">
+							{{ $server['currentMap'] }}
+						</a>
+					</td>
+					<td id="server-{{ $serverKey }}-ip">
+						{{ $server['ip'] }}:{{ $server['port'] }}
 					</td>
 				</tr>
 				@endforeach
-			</tbody>
-		</table>
-		
-		@php
-			// var_dump($server_3xp_cj_data);
-		@endphp
-	{{-- </div> --}}
+            </tbody>
+        </table>
+    </div>
 </section>
-<script> 
-	function showMore(moreText, btnText) {
-		var moreText = document.getElementById(moreText);
-		var btnText = document.getElementById(btnText);
 
-		if (moreText.style.display === "none") {
-			btnText.value = "hide playerlist";
-			moreText.style.display = "inline";
-		} else {
-			btnText.value = "show playerlist";
-			moreText.style.display = "none";
-		}
-	}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Funktion zum Aktualisieren der Webseite mit den neuen Daten
+
+    function updatePage(data) {
+			$('[data-toggle="tooltip"]').tooltip('dispose');
+        // Aktualisiere die 3XP-CJ-Serverdaten
+        if (data.server_3xp_cj_data) {
+            // Aktualisiere den Servernamen
+            $("#server-3xp-name").text(data.server_3xp_cj_data.serverName);
+
+            // Aktualisiere den Serverzustand
+            if (data.players.length > 0) {
+                $("#server-3xp-state").html('<img src="/Images/icons/online.png" alt="3xp_logo" width="30px" height="30px">');
+            } else {
+                $("#server-3xp-state").html('<img src="/Images/icons/offline.png" alt="3xp_logo" width="30px" height="30px">');
+            }
+
+            // Aktualisiere die Spieleranzahl
+            var playerList = "";
+            if (data.players.length > 0) {
+                playerList = '<div class="tooltiplist">';
+                data.players.forEach(function(player) {
+                    playerList += '<p>' + player.alias + '</p>';
+                });
+                playerList += '</div>';
+            }
+            var playersText = data.players.length + '/' + data.server_3xp_cj_data.rcon.serv.sv_maxclients + ' players';
+            $("#server-3xp-players a").attr('title', playerList).text(playersText);
+
+            // Aktualisiere die Karteninformation
+            $("#server-3xp-map a").attr("href", "/cod4/map/" + data.server_3xp_cj_data.rcon.serv.mapname);
+            $("#server-3xp-map a").text(data.server_3xp_cj_data.rcon.serv.mapname);
+
+            // Aktualisiere die IP-Adresse
+            $("#server-3xp-ip").text(data.server_3xp_cj_data.serverIP + ":" + data.server_3xp_cj_data.serverPort);
+        }
+
+        // Aktualisiere die Serverliste
+        if (data.servers) {
+			data.servers.forEach(function(server, index) {
+                var serverKey = index;
+
+                // Aktualisiere den Servernamen
+                $("#server-" + serverKey + "-name").text(server.currentMOTD);
+
+                // Aktualisiere den Serverzustand
+                var stateElement = $("#server-" + serverKey + "-state");
+                if (server.status == "on") {
+                    stateElement.html('<img src="/Images/icons/online.png" alt="online" width="30px" height="30px">');
+                } else {
+                    stateElement.html('<img src="/Images/icons/offline.png" alt="offline" width="30px" height="30px">');
+                }
+
+                // Aktualisiere die Spieleranzahl
+				var playersElement = $("#server-" + serverKey + "-players");
+				if (server.get_current_players) {
+					var playerList = $('<div class="tooltiplist">');
+					// playerList = JSON.stringify(playerList);
+					playerList = playerList.toString();
+					
+					console.log(typeof playerList);
+					if (server.get_current_players.length > 0) {
+						server.get_current_players.forEach(function(player) {
+							if (player) {
+								var alias = player.player;
+								playerList += '<p>' + alias + '</p>';
+							}
+						});
+						playerList = playerList.replace('[object Object]', '');
+						console.log(playerList);
+						playersElement.html('<a href="#" class="tooltip-css" data-bs-html="true" data-toggle="tooltip" title="' + playerList + '">' + server.get_current_players.length + '/' + server.maxClients + ' players' + '</a></div>');
+					} else {
+						playersElement.html('0/' + server.maxClients + ' players');
+					}
+				} else {
+					playersElement.empty();
+				}
+                // Aktualisiere die Karteninformation
+                var mapElement = $("#server-" + serverKey + "-map");
+                mapElement.find("a").attr("href", "/cod4/map/" + server.currentMap);
+                mapElement.find("a").text(server.currentMap);
+
+                // Aktualisiere die IP-Adresse
+                $("#server-" + serverKey + "-ip").text(server.ip + ":" + server.port);
+            });
+        }
+		
+		// Tooltip initialisieren
+		$('[data-toggle="tooltip"]').tooltip({ html: true });
+    }
+
+    // Funktion zum Abrufen und Aktualisieren der Daten
+    function fetchData() {
+      $.ajax({
+		url: "/",
+        method: "GET",
+        dataType: "json",
+        success: function(response) {
+          updatePage(response);
+        },
+        error: function() {
+          // Behandlung von Fehlern
+        }
+      });
+    }
+
+	$('[data-toggle="tooltip"]').tooltip({ html: true });
+    // Rufe die fetchData-Funktion in regelmäßigen Intervallen auf
+    setInterval(fetchData, 10000); // Polling-Intervall von 5 Sekunden
+
+});
 </script>
 @endsection

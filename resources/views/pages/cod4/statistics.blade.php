@@ -28,33 +28,9 @@
 		}
 	}
 </script>
+
 <style>
-
-#map .content-box-desc {
-
-	background-color: #14171c !important;
-}
-
-#maps .content-box-desc .topTime,.topRPG {
-	left: 30px;
-}
-
-#maps .content-box-desc .longestRuns {
-	right: 15px;
-}
-
 @media (max-width: 479px) {
-
-	#maps .content-box-desc .topTime,.topRPG,.longestRuns {
-		left: 15px;
-		margin-bottom: 20px;
-		font-size: 14px;
-	}
-
-	/* #maps .content-box-desc .longestRuns {
-		right: 0px;
-	} */
-/*  */
 	td:nth-of-type(1):before { content: "#"; }
 	td:nth-of-type(2):before { content: "map"; }
 	td:nth-of-type(3):before { content: "route"; }
@@ -72,16 +48,31 @@
 	td:nth-of-type(4):before { content: "release date"; }
 }
 
-</style>
-<section id="maps">
-		{{-- @if(count($mapsData) > 0) --}}
-			<div class="content-box-title">
-				<div class="row" style="padding-top: 8px;">
-					<h3>codjumper statistics from {{$playerData['alias']}}</h3>
-				</div>
-			</div>
 
-			<div class="content-box-desc">
+#statistics input {
+	width: 100%;
+	max-width: 100px;
+    text-align: center;
+    background: none;
+    border: 1px solid #bbbaba;
+	caret-color: #bbbaba;
+	color: #bbbaba;
+}
+
+
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<section id="statistics">
+		{{-- @if(count($mapsData) > 0) --}}
+		<div class="description-box">
+			<img src="/Images/logos/3xp.svg" height="90" width="210" style="margin-top:20px;">
+			<img src="/Images/logos/codjumper.png" alt="codjumper" style="margin-top:20px;">
+			<h2 style="margin-bottom: 20px;">statistics from {{$playerData['alias']}}</h2>
+		</div>
+
+			<div class="description-box">
 				<div class="row" style="margin-top:25px;margin-bottom: 25px; text-align: left; line-height: 0.5;">
 					<div class="col topTime">
 						<p style="font-weight: bold;">#1 Time from {{$playerData['alias']}}</p>
@@ -138,7 +129,9 @@
 				</div>
 			</div>
 
-			<div class="content-box-info">
+			<div class="hr"></div>
+
+			<div class="description-box">
 				<div class="row" style="padding-top: 25px;">
 					<div class="col-sm-4">
 						<p>{{$finishedRouteCounter}}/{{$routeCounter}} routes finished
@@ -153,33 +146,31 @@
 					</div>
 					<div class="col-sm-4">
 						<p>
-							click <a href="/cod4/player/{{$playerData['guidShort']}}">here</a> to see all runs
+							click <a href="/cod4/runs/{{$playerData['guidShort']}}">here</a> to see all runs
 						</p>
 					</div>
-                    <p>Note: Only maps which can be played legit in speedruns are displayed</p>
+                    <p>Note: Only maps and routes which can be played legit in speedruns are displayed</p>
 				</div>
 			</div>
 			
-			{{-- <div class="inputSearchEngine">
-				<input type="text" id="searchInput" onkeyup="filterMaps()" placeholder="Search for maps or route name">
-			</div> --}}
-			
-			<form action="/cod4/map" method="get">
-			{{-- <table class="table table-hover" > --}}
+			<div class="hr"></div>
+
+			{{-- <form action="/cod4/map" method="get"> --}}
+			<div class="card table-responsive" style="min-width:100%;">
 			<table class="table table-hover table-sm" id="mapsTable">
 				<thead class="no-mobile">
 					<tr>
-						<th scope="col">#</th>
+						<th scope="col">Map</th>
 						<th scope="col">
 							<div class="row">
 								<div class="col-sm-4">
-									route
+									Route
 								</div>
 								<div class="col-sm-4">
-									PB time
+									Fastest Run
 								</div>
 								<div class="col-sm-4">
-									PB rpg
+									Lowest RPG Count
 								</div>
 							</div>
 						</th>
@@ -191,9 +182,8 @@
 					@foreach($map["routes_external"] as $keytwo=>$route)
 							<tr>
 								@if($keytwo == 0)
-									<td rowspan="{{count($map["routes_external"])}}" scope="row"><a href="/cod4/map/{{$map["name"]}}">{{$map["name"]}}</a></td>
+									<td rowspan="{{count($map["routes_external"])}}" scope="row" class="border-right"><a href="/cod4/map/{{$map["name"]}}">{{$map["name"]}}</a></td>
 								@endif
-								{{-- <td scope="row">{{$key+1}}</td> --}}
 								<td scope="row">
 									<div class="row">
 										<div class="col-sm-4">
@@ -201,16 +191,82 @@
 										</div>
 										<div class="col-sm-4">
 											@if(isset($route['best_run_by_time']))
-											<script type="text/javascript">
-												msToHMS("{{$route['best_run_by_time']['time']}}");
-											</script>
+												{{-- JS makes me crazy --}}
+												@php
+													$originalDate = $route['best_run_by_time']['created_date'];
+													$newDate = date("Y-m-d", strtotime($originalDate));
+												@endphp
+
+												<div data-toggle="tooltip" data-html="true" title="
+													RPGs: {{$route['best_run_by_time']['rpgs']}} <br>
+													Loads: {{$route['best_run_by_time']['loads']}} <br>
+													Saves: {{$route['best_run_by_time']['saves']}} <br>
+													Hax: 
+													@if($route['best_run_by_time']['haxfps'] == 0)
+														No
+													@else
+														Yes
+													@endif
+													<br>
+													Elevate: 
+													@if($route['best_run_by_time']['ele'] == 0)
+														No
+													@else
+														Yes
+													@endif
+													<br>
+													Recorded: {{$newDate}}
+																										">
+														<script type="text/javascript">
+															msToHMS("{{$route['best_run_by_time']['time']}}");
+														</script>
+													@if($route['best_run_by_time']['ele'] == 1)<!-- No space before the caret (^) -->
+														^
+													@endif
+													@if($route['best_run_by_time']['haxfps'] == 1)<!-- No space before the asterisk (*) -->
+														*
+													@endif
+												</div>
 											@else
 												-
 											@endif
 										</div>
 										<div class="col-sm-4">
 											@if(isset($route['best_run_by_rpg']))
-												{{$route['best_run_by_rpg']['rpgs']}} (<script type="text/javascript">msToHMS("{{$route['best_run_by_rpg']['time']}}");</script>)
+
+											@php
+												$originalDate = $route['best_run_by_time']['created_date'];
+												$newDate = date("Y-m-d", strtotime($originalDate));
+											@endphp
+
+											<div data-toggle="tooltip" data-html="true" title="
+												Loads: {{$route['best_run_by_time']['loads']}} <br>
+												Saves: {{$route['best_run_by_time']['saves']}} <br>
+												Hax: 
+												@if($route['best_run_by_time']['haxfps'] == 0)
+													No
+												@else
+													Yes
+												@endif
+												<br>
+												Elevate: 
+												@if($route['best_run_by_time']['ele'] == 0)
+													No
+												@else
+													Yes
+												@endif
+												<br>
+												Recorded: {{$newDate}}
+																									">
+
+													{{$route['best_run_by_rpg']['rpgs']}} (<script type="text/javascript">msToHMS("{{$route['best_run_by_rpg']['time']}}");</script>)
+												@if($route['best_run_by_time']['ele'] == 1)<!-- No space before the caret (^) -->
+													^
+												@endif
+												@if($route['best_run_by_time']['haxfps'] == 1)<!-- No space before the asterisk (*) -->
+													*
+												@endif
+											</div>
 											@else
 												-
 											@endif
@@ -223,12 +279,16 @@
 				@endforeach
 				</tbody>
 			</table>
-			</form>
+			</div>
+			{{-- </form> --}}
 			<hr>
 			{{-- @else
 				<p>No maps found</p>
 			@endif --}}
+
 		<script>
+			$('[data-toggle="tooltip"]').tooltip({ html: true });
+
 
 			function filterMaps() {
 				const input = document.getElementById("searchInput");
